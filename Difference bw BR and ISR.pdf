@@ -1,0 +1,49 @@
+﻿What is the difference between BufferedReader and InputStreamReader in Java?
+
+Ans :BufferedReader reads a couple of characters from the specified stream and stores it in a buffer. This makes input faster.
+
+InputStreamReader reads only one character from specified stream and remaining characters still remain in the stream.
+
+Example:
+
+class NewClass{     
+    public static void main(String args[]) throws InterruptedException, IOException{ 
+ 
+        BufferedReader isr = new BufferedReader(new InputStreamReader(System.in)); 
+ 
+        Scanner sc = new Scanner(System.in); 
+ 
+        System.out.println("B.R. - "+(char)isr.read()); 
+        System.out.println("Scanner - " + sc.nextLine());        
+    } 
+} 
+When the isr.read() statement is executed, I entered the input ”hello” and the character “h” of “hello” is printed on the screen. If this was InputStreamReader then the remaining characters “ello” would have remained in the System.in stream and the sc.nextLine() would have printed them. But in this case it doesn’t happens because the BufferedReader reads all of the “hello” characters from the System.in stream and stores them in its own personal buffer and thus the System.in stream remains empty when sc.nextLine() is executed.
+
+For the code:
+
+class NewClass{     
+ 
+    public static void main(String args[]) throws InterruptedException, IOException{ 
+ 
+        InputStreamReader isr = new InputStreamReader(System.in); 
+ 
+        Scanner sc = new Scanner(System.in); 
+ 
+        System.out.println("I.S.R. - "+(char)isr.read()); 
+        System.out.println("Scanner - " + sc.nextLine()); 
+                 
+    } 
+} 
+In this case InputStreamReader reads only one character for “hello” input and the remaining “ello” still remain in the System.in stream and these characters are printed by sc.nextLine();
+
+Conclusion:
+
+BufferedReader reads a couple of characters(even if we want only one character it will read more than that) from the Input Stream and stores them in a buffer. That’s why it is called BufferedReader. I was unable to figure out how much characters it read in one go. It varied from 3 to 10 when I tested it for this answer.
+
+InputStreamReader reads only one character from input stream and remaining characters still remain in the stream. There is no intermediate buffer in this case.
+
+When one or more Threads or objects want to read characters from System.in then in that case InputStreamReader should be used because it reads only one character and remaining can be used by other objects or threads.
+
+BufferedReader is fast because it maintains a buffer and retrieving data from buffer is always fast as compared to retrieving data from disk/stdin.
+
+I hope this helps. If you have any doubt then please ask by commenting. I will try my best to clear them.
